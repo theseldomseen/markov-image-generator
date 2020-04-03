@@ -7,7 +7,7 @@ using namespace std;
 using namespace Magick;
 int main(int argc, char **argv)
 {
-	for(int numsets = 0; numsets < 1; numsets++)
+	for(int numsets = 0; numsets < 20; numsets++)
 	{
 		InitializeMagick(*argv);
 		Image img(argv[1] + to_string(numsets) + ".png");

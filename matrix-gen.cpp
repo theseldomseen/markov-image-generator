@@ -42,15 +42,15 @@ int main(int argc, char **argv)
 
 
 	//initialize the probability matricies for each color. 
-	vector<vector<vector<vector <double> > > > red(11, vector<vector<vector <double> > >(4, vector<vector<double> >(256, vector<double>(256))));
-        vector<vector<vector<vector <double> > > > blue(11, vector<vector<vector <double> > >(4, vector<vector<double> >(256, vector<double>(256))));
-	vector<vector<vector<vector <double> > > > green(11, vector<vector<vector <double> > >(4, vector<vector<double> >(256, vector<double>(256))));
+	vector<vector<vector<vector <double> > > > red(10, vector<vector<vector <double> > >(4, vector<vector<double> >(256, vector<double>(256))));
+        vector<vector<vector<vector <double> > > > blue(10, vector<vector<vector <double> > >(4, vector<vector<double> >(256, vector<double>(256))));
+	vector<vector<vector<vector <double> > > > green(10, vector<vector<vector <double> > >(4, vector<vector<double> >(256, vector<double>(256))));
 	
 	InitializeMagick(*argv);
 	
 	for(int numsets = 0; numsets < 20; numsets++) //go through each image set  (in this case I have 20 images that the training set is made from)
 	{
-		for(int i = 10; i >= 0; i--) //go through each transition layer
+		for(int i = 9; i >= 0; i--) //go through each transition layer
 		{
 			printf("on image %d, iter %d...\n\n", numsets, i);
 			Image img_cur("output_level_" + to_string(i+1) + "-" + to_string(numsets) + ".png"); //open the current and next layer, so you can get the transition
@@ -89,7 +89,7 @@ int main(int argc, char **argv)
 		}
 	}
 
-	for(int layer = 10; layer >= 0; layer--) //perform normalization so you get decimal probabilities at each coordinate in the matrix
+	for(int layer = 9; layer >= 0; layer--) //perform normalization so you get decimal probabilities at each coordinate in the matrix
 	{
 		for(int a = 0; a < 4; a++)
 		{
@@ -134,8 +134,8 @@ int main(int argc, char **argv)
 	int color_prev_r = 0;
 	int color_prev_g = 0;
 	int color_prev_b = 0;
-	int width = 6;
-	int height = 4;
+	int width = 8;
+	int height = 8;
 	Image img_prev;
 	bool sw = 0;
 
@@ -157,7 +157,7 @@ int main(int argc, char **argv)
 				}
 				else //this opens a specified image as the "previous image" to have a sort of starting seed.
 				{
-					Image img_in("output_level_11-14.png");
+					Image img_in("xyz.png");
 					ColorRGB px = img_in.pixelColor(x / 2, y / 2);
                                         color_prev_r = (int) (px.red() * 255);
                                         color_prev_g = (int) (px.green() * 255);
@@ -175,7 +175,8 @@ int main(int argc, char **argv)
 			}
 		}
 		img_prev = img_out;
-		img_prev.blur(1, ((double)layer)/3.0 + 1);
+		double thing = (((double)layer)/9.0) + 0.5;
+		img_prev.blur(0.5, thing);
 		sw = 1;
 		img_out.write("generated_output_level_" + to_string(layer) + ".png");
 		width *= 2;
