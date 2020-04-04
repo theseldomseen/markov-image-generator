@@ -192,7 +192,7 @@ int markov(vector <double> arr, int prev_val)
         for(int i = 0; i < arr.size(); i++)
         {
                 n += arr[i]; // add the probability
-                if(x <= n) //this'll be x with a probability distribution given in te input array
+                if(x <= n) //this'll be x with a probability distribution given in the input array
                 {
                         return i;
                 }
